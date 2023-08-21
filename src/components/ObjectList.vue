@@ -1,8 +1,14 @@
 <template>
     <div class="list__container">
-        <h1 class="list__h1">Objects</h1>
+        <div class="list__headings">
+            <h1 class="list__h1">Список продуктов</h1>
+            <button class="list__addbtn" @click="addObject()"><img class="list__addbtn_img" src="/plus.svg"></button>
+        </div>
+
         <ul class="list">
-            <ObjectItem v-for=" object of   objects  " v-bind:object="object" v-on:change-value="changeValue" />
+            <ObjectItem v-if="objects.length" v-for=" object of   objects  " v-bind:object="object"
+                v-on:remove-object="removeObject" v-on:change-value="changeValue" />
+            <span v-else="" class="list__warning">В списке нет продуктов (</span>
         </ul>
     </div>
 </template>
@@ -16,41 +22,51 @@ export default {
     data() {
         return {
             objects: [
-                { name: 'foo1', value: 'bar1', color: '#F4E0F9' },
-                { name: 'foo2', value: 'bar2', color: '#E3E0F9' },
-                { name: 'foo3', value: 'bar3', color: '#E0EAF9' },
-                { name: 'foo4', value: 'bar4', color: '#E0F4F9' },
-                { name: 'foo5', value: 'bar5', color: '#E0F9F0' },
-                { name: 'foo6', value: 'bar6', color: '#E0F9E2' },
-                { name: 'foo7', value: 'bar7', color: '#F1F9E0' },
-                { name: 'foo8', value: 'bar8', color: '#F8F9E0' },
-                { name: 'foo9', value: 'bar9', color: '#F9F3E0' },
-                { name: 'foo10', value: 'bar10', color: '#F9ECE0' },
-                { name: 'foo11', value: 'bar11', color: '#F9E4E0' },
-                { name: 'foo12', value: 'bar12', color: '#F9E0E0' },
-                { name: 'foo13', value: 'bar13', color: '#F4E0F9' },
-                { name: 'foo14', value: 'bar14', color: '#E3E0F9' },
-                { name: 'foo15', value: 'bar15', color: '#E0EAF9' },
-                { name: 'foo16', value: 'bar16', color: '#E0F4F9' },
-                { name: 'foo17', value: 'bar17', color: '#E0F9F0' },
-                { name: 'foo18', value: 'bar18', color: '#E0F9E2' },
-                { name: 'foo19', value: 'bar19', color: '#F1F9E0' },
-                { name: 'foo20', value: 'bar20', color: '#F8F9E0' }
+                { id: 1, name: 'Колбаса', color: '#F4E0F9', checked: false },
+                { id: 2, name: 'Яйца', color: '#E3E0F9', checked: false },
+                { id: 3, name: 'Молоко', color: '#E0EAF9', checked: false }
             ]
         }
     },
     methods: {
+        removeObject(id) {
+            this.objects = this.objects.filter(el => el.id !== id)
+        },
         changeValue(id, new_value) {
             console.log(id)
             console.log(new_value)
             this.objects.map((e) => {
                 if (new_value.trim()) {
-                    if (e.name === id) {
+                    if (e.id === id) {
                         e.value = new_value
                     }
                 }
 
             })
+        },
+        findNewId() {
+            let idPool = []
+            this.objects.forEach(el => {
+                idPool.push(el.id)
+            })
+            let newId = Math.random()
+            console.log(newId)
+            if (idPool.includes(newId)) {
+                newId = Math.random()
+            }
+            return newId
+
+        },
+        addObject() {
+
+            const newObject = {
+                id: this.findNewId(),
+                name: 'Новый продукт',
+                color: '#F8F8F8',
+                checked: false
+            }
+            this.objects.push(newObject)
+            console.log(this.objects)
         }
     }
 
@@ -102,11 +118,43 @@ export default {
     box-shadow: 0px 10px 30px 3px rgba(0 0 0 / 15%);
 }
 
+.list__headings {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list__addbtn {
+    cursor: pointer;
+    appearance: none;
+    border: none;
+    background: none;
+}
+
+.list__addbtn:is(:hover, :focus) .list__addbtn_img {
+    opacity: 70%;
+}
+
+.list__addbtn_img {
+    width: fit-content;
+    height: 40px;
+}
+
 .list__h1 {
     margin: 0;
 
     color: #333;
     font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.list__warning {
+    color: #333;
+    font-family: Inter;
+    font-size: 24px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;

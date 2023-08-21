@@ -1,19 +1,29 @@
 <template>
     <li v-bind:style="{ backgroundColor: object.color }" class="item">
-        <div v-bind:id="object.name + 'item'" class=" item__anim__container item__close">
+        <div v-bind:id="object.id + 'item'" class=" item__anim__container item__close">
             <div class="item__container">
                 <div class="text__container">
-                    <span class="item__text">name : {{ object.name }}</span>
-                    <span class="item__text">value : {{ object.value }}</span>
+                    <input type="checkbox" class="item__checkbox" v-on:change="object.checked = !object.checked">
+                    <span class="item__checkbox_img" v-bind:class="{ img_done: object.checked }"> </span>
+                    <input type="text" class="item__text" v-model="input"
+                        v-on:change="$emit('change-value', object.id, this.input)" v-bind:class="{ done: object.checked }">
                 </div>
-                <button class="item__button" @click="openForm(object.name)">
-                    <img class="item__icon" src="/list_icon.svg " alt="change icon">
+                <button class=" item__button" @click="openForm(object.id)">
+                    <img class="item__icon" src="/down_icon.svg " alt="change icon">
                 </button>
             </div>
-            <form class="item__form" v-bind:id="object.name"
-                @submit.prevent="$emit('change-value', object.name, this.input)">
-                <input class="form__input" type="text" v-model="input" />
-                <button class="form__button" type="submit">Change</button>
+            <form class="item__form" v-bind:id="object.id">
+                <div class="item__color_container">
+                    <button class="item__color_btn" @click="object.color = '#F8F8F8'"></button>
+                    <button class="item__color_btn" @click="object.color = '#F9E0E0'"></button>
+                    <button class="item__color_btn" @click="object.color = '#F9EFE0'"></button>
+                    <button class="item__color_btn" @click="object.color = '#EBF9E0'"></button>
+                    <button class="item__color_btn" @click="object.color = '#E0F9EA'"></button>
+                    <button class="item__color_btn" @click="object.color = '#E0F6F9'"></button>
+                    <button class="item__color_btn" @click="object.color = '#E0E5F9'"></button>
+                </div>
+                <button class="form__button" v-on:click="$emit('remove-object', object.id)"><img class="form__button_img"
+                        src="/cross.svg"></button>
             </form>
         </div>
     </li>
@@ -28,7 +38,7 @@ export default {
     },
     data() {
         return {
-            input: 'Enter new value'
+            input: this.object.name
         }
     },
 
@@ -58,51 +68,34 @@ function openForm(id) {
         font-size: 28px;
     }
 
-    .item__text:last-child {
-        font-size: 24px;
-    }
-
     .item__form {
-        max-width: 400px;
 
         padding: 30px;
         gap: 20px;
 
     }
 
-    .form__input {
-        width: 291px;
-        height: 150px;
-        padding: 8px 16px;
-
-        font-size: 24px;
-    }
-
     .form__button {
-        width: 323px;
-        height: 50px;
-
-        font-size: 18px;
-
+        width: fit-content;
     }
 
     @keyframes increase {
         from {
-            height: 72px;
+            height: 35px;
         }
 
         to {
-            height: 385px;
+            height: 150px;
         }
     }
 
     @keyframes decrease {
         from {
-            height: 385px;
+            height: 150px;
         }
 
         to {
-            height: 72px;
+            height: 35px;
         }
     }
 }
@@ -176,6 +169,8 @@ function openForm(id) {
     box-shadow: 0px 4px 4px 0px rgba(0 0 0 /25%) inset;
 }
 
+
+
 .item__anim__container {
     width: 100%;
     display: flex;
@@ -205,7 +200,9 @@ function openForm(id) {
 
 .text__container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
 
 }
 
@@ -215,6 +212,41 @@ function openForm(id) {
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    margin-left: 50px;
+
+    background: transparent;
+}
+
+
+.item__checkbox {
+    -webkit-appearance: none;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 1;
+    outline: none;
+    border: none;
+}
+
+.item__checkbox_img {
+    position: absolute;
+    display: flex;
+    box-sizing: content-box;
+    margin-right: 20px;
+    width: 31px;
+    height: 31px;
+    background: url('/notdone_icon.svg');
+    background-repeat: no-repeat;
+}
+
+.img_done {
+    background: url('/ddone_icon.svg');
+    background-repeat: no-repeat;
+}
+
+.done {
+    text-decoration: line-through;
 }
 
 .item__button {
@@ -232,41 +264,73 @@ function openForm(id) {
 }
 
 .item__button:is(:hover, :focus) .item__icon {
-    transform: rotate(-90deg);
+    transform: rotate(90deg);
 }
 
 .item__form {
     display: none;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    width: 100%;
 
     border-radius: 20px;
     background: #FFF;
-    box-shadow: 0px 10px 30px 3px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 10px 30px 3px rgba(0 0 0 /15%);
+}
 
+.item__color_container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+}
+
+.item__color_btn {
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50px;
+    box-shadow: 0px 4px 4px 0px rgba(0 0 0 /25%);
+}
+
+.item__color_btn:nth-child(1) {
+    background: #F8F8F8;
+}
+
+.item__color_btn:nth-child(2) {
+    background: #F9E0E0;
+}
+
+.item__color_btn:nth-child(3) {
+    background: #F9EFE0;
+}
+
+.item__color_btn:nth-child(4) {
+    background: #EBF9E0;
+}
+
+.item__color_btn:nth-child(5) {
+    background: #E0F9EA;
+}
+
+.item__color_btn:nth-child(6) {
+    background: #E0F6F9;
+}
+
+.item__color_btn:nth-child(7) {
+    background: #E0E5F9;
+}
+
+.item__color_btn:is(:hover, :focus) {
+    border: 2px solid #A6A6A6;
 }
 
 .form__open {
     display: flex;
-}
-
-.form__input {
-    display: flex;
-    border-radius: 4px;
-    border: 1px solid #DDD;
-    background: #FFF;
-
-    color: #DDD;
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 150.5%;
-}
-
-.form__input:focus {
-    border: 1px solid #DDD;
-    color: #333;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .form__close:is(:hover, :focus) .close__img {
@@ -275,19 +339,11 @@ function openForm(id) {
 
 .form__button {
     cursor: pointer;
-
-    border-radius: 15px;
-    background: rgba(228 228 228 / 70%);
+    background: transparent;
     border: none;
-
-    color: #333;
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 150.5%;
 }
 
-.form__button:is(:hover, :focus) {
-    background: rgb(222, 222, 222);
+.form__button:is(:hover, :focus) .form__button_img {
+    opacity: 70%;
 }
 </style>
