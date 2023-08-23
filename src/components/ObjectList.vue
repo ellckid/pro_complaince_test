@@ -7,7 +7,11 @@
 
         <ul class="list">
             <ObjectItem v-if="objects.length" v-for=" object of   objects  " v-bind:object="object"
-                v-on:remove-object="removeObject" v-on:change-value="changeValue" />
+                v-on:remove-object="removeObject" v-on:change-value="changeValue" v-on:sort-objects="sortedList"
+                :key="object.id" />
+            <ObjectItem v-if="completedObjects.length" v-for=" object of   completedObjects " v-bind:object="object"
+                v-on:remove-object="removeObject" v-on:change-value="changeValue" v-on:sort-objects="sortedList"
+                :key="object.id" />
             <span v-else="" class="list__warning">В списке нет продуктов (</span>
         </ul>
     </div>
@@ -22,13 +26,29 @@ export default {
     data() {
         return {
             objects: [
-                { id: 1, name: 'Колбаса', color: '#F4E0F9', checked: false },
-                { id: 2, name: 'Яйца', color: '#E3E0F9', checked: false },
-                { id: 3, name: 'Молоко', color: '#E0EAF9', checked: false }
-            ]
+                { id: 0, name: 'Колбаса', color: '#F4E0F9', checked: false },
+                { id: 1, name: 'Яйца', color: '#E3E0F9', checked: false },
+                { id: 2, name: 'Молоко', color: '#E0EAF9', checked: false }
+            ],
+            completedObjects: []
         }
+
     },
     methods: {
+        sortedList(id) {
+
+            for (let i = 0; i < this.objects.length; i++) {
+                if (this.objects[i].id == id) {
+                    console.log(this.objects)
+                    console.log(this.completedObjects)
+                    if (this.objects.includes(this.objects[i])) {
+                        this.objects.splice(i, 1)
+                        this.completedObjects.push(this.objects[i])
+                        console.log('элемент ' + this.objects[i].name + " " + i + ' выбран и должен быть внизу')
+                    }
+                }
+            }
+        },
         removeObject(id) {
             this.objects = this.objects.filter(el => el.id !== id)
         },
