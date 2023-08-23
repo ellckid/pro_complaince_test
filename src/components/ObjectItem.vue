@@ -46,7 +46,7 @@ export default {
     },
     watch: {
         checked() {
-            this.$emit('sort-objects', this.object.id)
+            this.$emit('sort-objects', this.object.id, this.checked)
         }
     }
 

@@ -9,10 +9,10 @@
             <ObjectItem v-if="objects.length" v-for=" object of   objects  " v-bind:object="object"
                 v-on:remove-object="removeObject" v-on:change-value="changeValue" v-on:sort-objects="sortedList"
                 :key="object.id" />
+            <hr>
             <ObjectItem v-if="completedObjects.length" v-for=" object of   completedObjects " v-bind:object="object"
                 v-on:remove-object="removeObject" v-on:change-value="changeValue" v-on:sort-objects="sortedList"
                 :key="object.id" />
-            <span v-else="" class="list__warning">В списке нет продуктов (</span>
         </ul>
     </div>
 </template>
@@ -35,19 +35,79 @@ export default {
 
     },
     methods: {
-        sortedList(id) {
+        sortedList(id, stat) {
+            console.log(id)
+            // for (let i = 0; i < this.objects.length; i++) {
+            //     if (this.objects[i].id == id) {
+            //         console.log(this.objects)
+            //         console.log(this.completedObjects)
+            //         if (this.objects.includes(this.objects[i])) {
+            //             this.objects.splice(i, 1)
+            //             this.completedObjects.push(this.objects[i])
+            //             console.log('элемент ' + this.objects[i].name + " " + i + ' выбран и должен быть внизу')
+            //         }
+            //     }
+            // }
 
-            for (let i = 0; i < this.objects.length; i++) {
-                if (this.objects[i].id == id) {
-                    console.log(this.objects)
-                    console.log(this.completedObjects)
-                    if (this.objects.includes(this.objects[i])) {
-                        this.objects.splice(i, 1)
-                        this.completedObjects.push(this.objects[i])
-                        console.log('элемент ' + this.objects[i].name + " " + i + ' выбран и должен быть внизу')
-                    }
-                }
+
+
+            // this.objects.forEach(el => {
+            //     if (el.id === id) {
+            //         if (stat === true) {
+            //             this.objects.filter(el => el.checked === true)
+            //             this.objects.splice(this.objects.indexOf(el), 1)
+            //             this.completedObjects.push(el)
+            //         }
+            //     }
+            // })
+
+            // this.completedObjects.forEach(el => {
+            //     if (el.id === id) {
+            //         if (stat === false) {
+            //             this.completedObjects.filter(el => el.checked === false)
+            //             this.completedObjects.splice(this.completedObjects.indexOf(el), 1)
+            //             this.objects.push(el)
+            //         }
+            //     }
+            // })
+
+            // this.objects.forEach(el => {
+            //     if (stat === true) {
+            //         const completeMask = this.objects.splice(this.objects.indexOf(el), 1)
+            //         this.completedObjects.push(...completeMask)
+            //     }
+            // })
+            // this.objects.forEach(el => {
+            //     if (stat === true) {
+            //         const notCompleteMask = this.completedObjects.splice(this.completedObjects.indexOf(el), 1)
+            //         this.objects.push(...notCompleteMask)
+            //         console.log(...notCompleteMask)
+            //     }
+            // })
+
+            if (stat == true) {
+                const completeMask = this.objects.splice(el => this.objects.indexOf(el), 1)
+                this.completedObjects.push(...completeMask)
+                console.log(this.objects)
+                console.log(this.completedObjects)
             }
+            if (stat == false) {
+                const notCompleteMask = this.completedObjects.splice(el => this.objects.indexOf(el), 1)
+                this.objects.push(...notCompleteMask)
+                console.log(this.objects)
+                console.log(this.completedObjects)
+            }
+
+            // this.completedObjects.forEach(el => {
+            //     if (el.id === id) {
+            //         if (stat === false) {
+            //             this.completedObjects.filter(el => el.checked === false)
+            //             this.completedObjects.splice(this.completedObjects.indexOf(el), 1)
+            //             this.objects.push(el)
+            //         }
+            //     }
+            // })
+
         },
         removeObject(id) {
             this.objects = this.objects.filter(el => el.id !== id)
