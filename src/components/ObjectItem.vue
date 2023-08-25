@@ -15,13 +15,20 @@
             </div>
             <form class="item__form" v-bind:id="object.id">
                 <div class="item__color_container">
-                    <button class="item__color_btn" @click="object.color = '#F8F8F8'"></button>
-                    <button class="item__color_btn" @click="object.color = '#F9E0E0'"></button>
-                    <button class="item__color_btn" @click="object.color = '#F9EFE0'"></button>
-                    <button class="item__color_btn" @click="object.color = '#EBF9E0'"></button>
-                    <button class="item__color_btn" @click="object.color = '#E0F9EA'"></button>
-                    <button class="item__color_btn" @click="object.color = '#E0F6F9'"></button>
-                    <button class="item__color_btn" @click="object.color = '#E0E5F9'"></button>
+                    <button class="item__color_btn"
+                        @click="object.color = '#F8F8F8', $emit('change-value', object.id, this.input)"></button>
+                    <button class="item__color_btn"
+                        @click="object.color = '#F9E0E0', $emit('change-value', object.id, this.input)"></button>
+                    <button class="item__color_btn"
+                        @click="object.color = '#F9EFE0', $emit('change-value', object.id, this.input)"></button>
+                    <button class="item__color_btn"
+                        @click="object.color = '#EBF9E0', $emit('change-value', object.id, this.input)"></button>
+                    <button class="item__color_btn"
+                        @click="object.color = '#E0F9EA', $emit('change-value', object.id, this.input)"></button>
+                    <button class="item__color_btn"
+                        @click="object.color = '#E0F6F9', $emit('change-value', object.id, this.input)"></button>
+                    <button class="item__color_btn"
+                        @click="object.color = '#E0E5F9', $emit('change-value', object.id, this.input)"></button>
                 </div>
                 <button class="form__button" v-on:click="$emit('remove-object', object.id)"><img class="form__button_img"
                         src="/cross.svg"></button>
@@ -380,5 +387,4 @@ function openForm(id) {
 
 .form__button:is(:hover, :focus) .form__button_img {
     opacity: 70%;
-}
-</style>
+}</style>
