@@ -8,11 +8,13 @@
         <ul class="list">
             <ObjectItem v-if="objects.length" v-for=" object of   objects  " v-bind:object="object"
                 v-on:remove-object="removeObject" v-on:change-value="changeValue" v-on:sort-objects="sortedList"
-                :key="object.id" />
+                v-on:change-color="changeColor" :key="object.id" />
             <hr>
             <ObjectItem v-if="completedObjects.length" v-for=" object of   completedObjects " v-bind:object="object"
                 v-on:remove-object="removeObject" v-on:change-value="changeValue" v-on:sort-objects="sortedList"
                 :key="object.id" />
+            <span class="list__warning" v-else-if="!completedObjects.length && !objects.length">В списке нет
+                продуктов(</span>
         </ul>
     </div>
 </template>
@@ -48,6 +50,23 @@ export default {
         }
     },
     methods: {
+        changeColor(id, color) {
+            this.objects.forEach(el => {
+                if (el.id === id) {
+                    el.color = color
+                    this.saveData()
+                }
+            })
+
+        },
+        changeValue(id, value) {
+            this.objects.forEach(el => {
+                if (el.id === id) {
+                    el.name = value
+                    this.saveData()
+                }
+            })
+        },
         sortedList(id, stat) {
             console.log(id)
             console.log(stat)
@@ -82,22 +101,7 @@ export default {
             this.objects = this.objects.filter(el => el.id !== id)
             this.saveData()
         },
-        changeValue(id, new_value) {
-            console.log(id)
-            console.log(new_value)
-            this.objects.forEach(el => {
-                if (new_value.trim()) {
-                    if (el.id === id) {
-                        el.name = new_value
-                        this.saveData()
-                    }
 
-                }
-
-            })
-            console.log(this.objects)
-
-        },
         findNewId() {
             let idPool = []
             this.objects.forEach(el => {
@@ -215,5 +219,14 @@ export default {
     flex-direction: column;
     list-style: none;
     padding: 0;
+}
+
+.list__warning {
+    color: #333;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
 }
 </style>

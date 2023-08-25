@@ -6,8 +6,8 @@
                 <div class="text__container">
                     <input type="checkbox" class="item__checkbox" v-on:change="" v-model="checked">
                     <span class="item__checkbox_img" v-bind:class="{ img_done: object.checked }"> </span>
-                    <input type="text" class="item__text" v-model="input"
-                        v-on:change="$emit('change-value', object.id, this.input)" v-bind:class="{ done: object.checked }">
+                    <input type="text" class="item__text" v-model="input" v-on:change=""
+                        v-bind:class="{ done: object.checked }">
                 </div>
                 <button class=" item__button" @click="openForm(object.id)">
                     <img class="item__icon" src="/down_icon.svg " alt="change icon">
@@ -15,20 +15,13 @@
             </div>
             <form class="item__form" v-bind:id="object.id">
                 <div class="item__color_container">
-                    <button class="item__color_btn"
-                        @click="object.color = '#F8F8F8', $emit('change-value', object.id, this.input)"></button>
-                    <button class="item__color_btn"
-                        @click="object.color = '#F9E0E0', $emit('change-value', object.id, this.input)"></button>
-                    <button class="item__color_btn"
-                        @click="object.color = '#F9EFE0', $emit('change-value', object.id, this.input)"></button>
-                    <button class="item__color_btn"
-                        @click="object.color = '#EBF9E0', $emit('change-value', object.id, this.input)"></button>
-                    <button class="item__color_btn"
-                        @click="object.color = '#E0F9EA', $emit('change-value', object.id, this.input)"></button>
-                    <button class="item__color_btn"
-                        @click="object.color = '#E0F6F9', $emit('change-value', object.id, this.input)"></button>
-                    <button class="item__color_btn"
-                        @click="object.color = '#E0E5F9', $emit('change-value', object.id, this.input)"></button>
+                    <button class="item__color_btn" @click="$emit('change-color', object.id, '#F8F8F8')"></button>
+                    <button class="item__color_btn" @click="$emit('change-color', object.id, '#F9E0E0')"></button>
+                    <button class="item__color_btn" @click="$emit('change-color', object.id, '#F9EFE0')"></button>
+                    <button class="item__color_btn" @click="$emit('change-color', object.id, '#EBF9E0')"></button>
+                    <button class="item__color_btn" @click="$emit('change-color', object.id, '#E0F9EA')"></button>
+                    <button class="item__color_btn" @click="$emit('change-color', object.id, '#E0F6F9')"></button>
+                    <button class="item__color_btn" @click="$emit('change-color', object.id, '#E0E5F9')"></button>
                 </div>
                 <button class="form__button" v-on:click="$emit('remove-object', object.id)"><img class="form__button_img"
                         src="/cross.svg"></button>
@@ -54,6 +47,10 @@ export default {
         checked() {
             this.object.checked = !this.object.checked
             this.$emit('sort-objects', this.object.id, this.checked)
+        },
+        input() {
+            this.object.name = this.input
+            this.$emit('change-value', this.object.id, this.input)
         }
     }
 
@@ -387,4 +384,5 @@ function openForm(id) {
 
 .form__button:is(:hover, :focus) .form__button_img {
     opacity: 70%;
-}</style>
+}
+</style>
