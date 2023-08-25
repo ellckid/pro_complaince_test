@@ -75,8 +75,20 @@ function openForm(id) {
         word-wrap: break-word;
     }
 
+    .item__checkbox {
+        width: 30px;
+        height: 30px;
+    }
+
+    .item__checkbox_img {
+        margin-right: 20px;
+        width: 31px;
+        height: 32px;
+    }
+
     .item__text {
         font-size: 28px;
+        margin-left: 50px;
     }
 
     .item__form {
@@ -118,12 +130,27 @@ function openForm(id) {
 
     .text__container {
         gap: 5px;
-        max-width: 180px;
+        max-width: 150px;
         word-wrap: break-word;
+    }
+
+    .item__checkbox {
+        width: 20px;
+        height: 20px;
+    }
+
+    .item__checkbox_img {
+        transform: scale(81%);
+        width: 21px;
+        height: 22px;
     }
 
     .item__text {
         font-size: 24px;
+        margin-left: 30px;
+
+        max-width: 160px;
+        overflow: hidden;
     }
 
     .item__text:last-child {
@@ -147,7 +174,6 @@ function openForm(id) {
     }
 
     .form__button {
-        width: 100%;
         height: 50px;
 
         font-size: 14px;
@@ -156,21 +182,21 @@ function openForm(id) {
 
     @keyframes increase {
         from {
-            height: 59px;
+            height: 35px;
         }
 
         to {
-            height: 345px;
+            height: 150px;
         }
     }
 
     @keyframes decrease {
         from {
-            height: 345px;
+            height: 150px;
         }
 
         to {
-            height: 59px;
+            height: 35px;
         }
     }
 }
@@ -223,7 +249,6 @@ function openForm(id) {
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    margin-left: 50px;
 
     background: transparent;
 }
@@ -232,8 +257,6 @@ function openForm(id) {
 .item__checkbox {
     -webkit-appearance: none;
     position: absolute;
-    width: 30px;
-    height: 30px;
     cursor: pointer;
     z-index: 1;
     outline: none;
@@ -244,16 +267,17 @@ function openForm(id) {
     position: absolute;
     display: flex;
     box-sizing: content-box;
-    margin-right: 20px;
-    width: 31px;
-    height: 31px;
     background: url('/notdone_icon.svg');
     background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .img_done {
+    position: absolute;
+    display: flex;
     background: url('/ddone_icon.svg');
     background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .done {

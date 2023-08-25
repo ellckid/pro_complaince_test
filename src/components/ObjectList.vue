@@ -295,15 +295,6 @@ export default {
     line-height: normal;
 }
 
-.list__warning {
-    color: #333;
-    font-family: Inter;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-}
-
 .list {
     display: flex;
     flex-direction: column;
