@@ -4,8 +4,7 @@
         <div v-bind:id="object.id + 'item'" class=" item__anim__container item__close">
             <div class="item__container">
                 <div class="text__container">
-                    <input type="checkbox" class="item__checkbox" v-on:change="object.checked = !object.checked"
-                        v-model="checked">
+                    <input type="checkbox" class="item__checkbox" v-on:change="" v-model="checked">
                     <span class="item__checkbox_img" v-bind:class="{ img_done: object.checked }"> </span>
                     <input type="text" class="item__text" v-model="input"
                         v-on:change="$emit('change-value', object.id, this.input)" v-bind:class="{ done: object.checked }">
@@ -46,6 +45,7 @@ export default {
     },
     watch: {
         checked() {
+            this.object.checked = !this.object.checked
             this.$emit('sort-objects', this.object.id, this.checked)
         }
     }
@@ -61,8 +61,6 @@ function openForm(id) {
     document.getElementById(id).classList.toggle('form__open')
     document.getElementById(id + 'item').classList.toggle('item__open')
     document.getElementById(id + 'item').classList.toggle('item__close')
-
-
 }
 </script>
 <style >
